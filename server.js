@@ -1,84 +1,37 @@
+const http = require('http')
 
-const express = require('express');
-var router = express.Router();
-const app = express();
-const http = require('http');
-const server = http.createServer(app);
-const io = require("socket.io")(server, {
+const server = http.createServer(function(request, response) {
+  console.dir(request.param)
 
-    cors: {
-
-        origin:  "*",
-        methods: [ "GET" , "POST" ]
-    }
-})
-const path = require('path');
-
-
-
-
-
-
-io.on('connection', (socket) => {
-  sid=socket.id;
-  io.to(socket.id).emit("sid",socket.id);
-
-  console.log(socket.id+" :user connected");
-  socket.on('disconnect', () => {
-    console.log(socket.id+'user disconnected');
+  if (request.method == 'POST') {
+    console.log('POST')
+    var body = ''
+    request.on('data', function(data) {
+      body += data
+      console.log('Partial body: ' + body)
+    })
+    request.on('end', function() {
+      console.log('Body: ' + body)
+      response.writeHead(200, {'Content-Type': 'text/html'})
+      response.end('post received')
+    })
+  } else {
+    console.log('GET')
+    var html = `
+            <html>
+                <body>
+                    <form method="post" action="http://localhost:3000">Name: 
+                        <input type="text" name="name" />
+                        <input type="submit" value="Submit" />
+                    </form>
+                </body>
+            </html>`
+    response.writeHead(200, {'Content-Type': 'text/html'})
+    response.end(html)
   }
-
-);
-
-  
-
-  
-
-
- socket.on('chat message', (msg,p) => {
-  
-  io.emit('chat message',p+":" + msg);
-  
- });
-
-
-
-
-
- 
-
- 
- 
-});
-
-var device = require('express-device');
-app.use(device.capture());
-
-
-
-
-app.get('/st2.css', function (req, res) {
-  res.sendFile(path.join(__dirname, '/public/st2.css'));
 })
 
-
-app.get('/st.css', function (req, res) {
-  res.sendFile(path.join(__dirname, '/public/st.css'));
-})
-app.get('/particle.js', function (req, res) {
-  res.sendFile(path.join(__dirname, '/public/particle.js'));
-})
-
-
-app.get('/index', function (req, res) {
-  if(req.device.type.toUpperCase()=="PHONE")
-
-  res.sendFile(path.join(__dirname, '/index.html'));
-  else 
-  res.sendFile(path.join(__dirname, '/index2.html'));
-})
-
-
-
-server.listen(process.env.PORT || 3000, () => { console.log("connect") });
-//server.listen(5000, () => { console.log("connect") })
+const port = 3000
+const host = '127.0.0.1'
+server.listen(port, host)
+console.log(`Listening at http://${host}:${port}`)
