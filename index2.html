@@ -1,14 +1,21 @@
+<!DOCTYPE html>
 <html>
-
-<head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-</head>
-
-
 <body>
-<div>1</div>
 
+<script>
+var obj = '{'
+       +'"name" : "Raj",'
+       +'"age"  : 32,'
+       +'"married" : false'
+       +'}';
+       
+        var obj = new Object();
+   obj.name = "Raj";
+   obj.age  = 32;
+   obj.married = false;
+   var jsonString= JSON.stringify(obj);
+     document.write(jsonString);
+</script>
 
 </body>
-
 </html>
