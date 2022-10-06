@@ -4,6 +4,10 @@ var router = express.Router();
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
+const cors = require('cors');
+app.use(cors({
+    origin: '*',
+}));
 const io = require("socket.io")(server, {
 
     cors: {
@@ -12,6 +16,7 @@ const io = require("socket.io")(server, {
         methods: [ "GET" , "POST" ]
     }
 })
+
 const path = require('path');
 
 
@@ -70,7 +75,7 @@ app.get('/particle.js', function (req, res) {
 })
 
 
-app.get('/index', function (req, res) {
+app.get('/index', cors(), function (req, res,next) {
   if(req.device.type.toUpperCase()=="PHONE")
 
   res.sendFile(path.join(__dirname, '/index.html'));
