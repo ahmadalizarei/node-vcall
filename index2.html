@@ -3,13 +3,11 @@
 <body>
 
 <script>
-var obj = '{'
-       +'"name" : "ali",'
-       +'"age"  : 32,'
-       +'"married" : false'
-       +'}';
-       
- 
+
+        var obj = new Object();
+   obj.name = "ali";
+   obj.age  = 32;
+   obj.married = false;
    var jsonString= JSON.stringify(obj);
      document.write(jsonString);
 </script>
