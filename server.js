@@ -8,7 +8,7 @@ const io = require("socket.io")(server, {
 
     cors: {
 
-        origin:  "https://peppy-dasik-dc6443.netlify.app/",
+        origin:  "*",
         methods: [ "GET" , "POST" ]
     }
 })
